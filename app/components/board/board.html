@@ -1,0 +1,9 @@
+<h1>Board {{ $ctrl.board }}</h1>
+
+<message-creator></message-creator>
+
+<filter-bar filter="$ctrl.filter"></filter-bar>
+
+<div ng-repeat="message in $ctrl.messages | orderBy:$ctrl.filter.sortType:$ctrl.filter.sortReverse | filter:$ctrl.filter.search">
+    <message message="message"></message>
+</div>

@@ -1,0 +1,40 @@
+.mebo {
+    padding-top: 150px;
+}
+
+.wrapper {
+    margin: 0 auto;
+    min-height: 100%;
+    position: relative;
+}
+
+.content-area {
+
+    /*
+        This must be the same size (or more) as the height of the footer!
+        Otherwise the content are will be behind the footer as the footer
+        is positioned absolute.
+    */
+    padding-top: 130px;
+    padding-bottom:80px;
+}
+
+footer-bar {
+    background-color: #233140;
+    bottom: 0;
+    font-size: 12px;
+    left:0;
+    letter-spacing: 0.2px;
+    line-height: 1.29em;
+    position: absolute;
+    text-align: left;
+    width: 100%;
+}
+
+body {
+    background-image: url(https://upload.wikimedia.org/wikipedia/commons/6/61/Torm_detsembris._Meriv%C3%A4lja_Muul.jpg);
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+}
