@@ -2,22 +2,19 @@
 
     angular.module('mebo.components').controller('MessageCreatorController', MessageCreatorController);
 
-    MessageCreatorController.$inject = ['MessageService'];
+    MessageCreatorController.$inject = ['MessageService', 'BoardService'];
 
-    function MessageCreatorController(MessageService) {
+    function MessageCreatorController(MessageService, BoardService) {
 
         var vm = this;
 
         vm.post = function () {
-
-            console.log(vm)
-
-            MessageService.post({
+            var board = BoardService.getCurrentBoard();
+            MessageService.post(board, {
                 title: vm.title,
                 text: vm.text
             });
         };
-
 
         vm.title = "";
         vm.text = "";

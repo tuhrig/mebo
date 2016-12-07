@@ -32,9 +32,13 @@ footer-bar {
 }
 
 body {
-    background-image: url(https://upload.wikimedia.org/wikipedia/commons/6/61/Torm_detsembris._Meriv%C3%A4lja_Muul.jpg);
+  /*  background-image: url(https://upload.wikimedia.org/wikipedia/commons/6/61/Torm_detsembris._Meriv%C3%A4lja_Muul.jpg);
     background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
-    -o-background-size: cover;
+    -o-background-size: cover;*/
+}
+
+.message-date {
+    float: right;
 }

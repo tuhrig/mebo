@@ -6,27 +6,19 @@
 
     function MessageServiceFactory($q) {
 
-        var messages = [
-            {
-                title: "Message No. 1",
-                text: "Cool! I'm the first message which appears on this board. I have some text. Not more. But this is cool. Because I'm the first one.",
-                votes: 5
-            },
-            {
-                title: "This is a test",
-                text: "Teeeeeeeeest!",
-                votes: 0
-            },
-            {
-                title: "How does this work",
-                text: "Empty.",
-                votes: 1
-            }
-        ];
+        var boards = {};
 
         function post(board, message) {
 
-            messages.push(message);
+            if(!_.has(boards, board)) {
+                console.log("init board");
+                boards[board] = [];
+            }
+
+            message.date = Date();
+            message.votes = 0;
+
+            boards[board].push(message);
 
             var deferred = $q.defer();
             deferred.resolve();
@@ -34,8 +26,14 @@
         }
 
         function get(board) {
+
+            if(!_.has(boards, board)) {
+                console.log("init board");
+                boards[board] = [];
+            }
+
             var deferred = $q.defer();
-            deferred.resolve(messages);
+            deferred.resolve(boards[board]);
             return deferred.promise;
         }
 
