@@ -1,4 +1,4 @@
 angular.module('mebo.components').component('board', {
-    templateUrl: 'app/components/board/board.html',
+    templateUrl: 'components/board/board.html',
     controller: 'BoardController'
 });
