@@ -19,5 +19,4 @@ app.use('/api', messageRouter);
 var server = app.listen(5000);
 logger.info("Running on port 5000");
 
-
 module.exports = app;
