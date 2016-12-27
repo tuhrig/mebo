@@ -1,11 +1,11 @@
 var chai = require('chai');
 var sinon = require('sinon');
 var request = require('supertest');
-var app = require('../server.js');
+var app = require('../../server.js');
 var chai = require('chai');
 var expect = chai.expect;
 
-var boardService = require('../services/boardService.js');
+var boardService = require('../../src/services/boardService.js');
 
 describe("Route /boards", function () {
 

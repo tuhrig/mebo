@@ -20,7 +20,7 @@
 }
 
 footer-bar {
-    background-color: #233140;
+    background-color: #e7e7e7;
     bottom: 0;
     font-size: 12px;
     left:0;
@@ -29,14 +29,15 @@ footer-bar {
     position: absolute;
     text-align: left;
     width: 100%;
+    padding: 20px;
 }
 
 body {
-  /*  background-image: url(https://upload.wikimedia.org/wikipedia/commons/6/61/Torm_detsembris._Meriv%C3%A4lja_Muul.jpg);
+    background-image: url(https://upload.wikimedia.org/wikipedia/commons/6/61/Torm_detsembris._Meriv%C3%A4lja_Muul.jpg);
     background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
-    -o-background-size: cover;*/
+    -o-background-size: cover;
 }
 
 .message-date {

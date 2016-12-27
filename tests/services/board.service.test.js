@@ -2,7 +2,7 @@
 var chai = require('chai');
 var expect = chai.expect;
 
-var boardService = require('../services/boardService.js');
+var boardService = require('../../src/services/boardService.js');
 
 describe('BoardService: ', function() {
 

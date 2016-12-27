@@ -10,8 +10,8 @@ logger.info("..--##≤≤ ,,..--..,, >>##--..");
 var app = express();
 app.use(express.static(__dirname)); //Serves resources from public folder
 
-var boardRouter = require('./routes/boardRouter.js');
-var messageRouter = require('./routes/messageRouter.js');
+var boardRouter = require('./src/routes/board.router.js');
+var messageRouter = require('./src/routes/message.router.js');
 
 app.use('/api', boardRouter);
 app.use('/api', messageRouter);
