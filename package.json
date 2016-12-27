@@ -6,13 +6,18 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "body-parser": "~1.15.2",
+    "body-parser": "^1.15.2",
     "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
     "express": "~4.14.0",
     "jade": "~1.11.0",
     "lodash": "^4.17.2",
     "morgan": "~1.7.0",
-    "serve-favicon": "~2.3.0"
+    "serve-favicon": "~2.3.0",
+    "sinon": "^1.17.6",
+    "supertest": "^2.0.1"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0"
   }
 }
