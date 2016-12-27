@@ -76,7 +76,9 @@ describe("Route", function () {
 
                     expect(messages.length).to.equal(1);
                     expect(messages[0].text).to.equal("test 123");
+                    expect(messages[0].votes).to.equal(0);
                     expect(messages[0].date).to.be.ok;
+                    expect(messages[0].id).to.be.ok;
 
                     done();
                 });
@@ -95,7 +97,9 @@ describe("Route", function () {
                     if (err) return done(err);
 
                     expect(res.body.text).to.equal("test 123");
+                    expect(res.body.votes).to.equal(0);
                     expect(res.body.date).to.be.ok;
+                    expect(res.body.id).to.be.ok;
 
                     done();
                 });

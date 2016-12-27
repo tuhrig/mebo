@@ -62,7 +62,7 @@ describe('BoardService: ', function() {
 
         it('should create board with creation date', function() {
             var board = boardService.createBoard("my-board");
-            expect(board.date).to.not.equal(undefined);
+            expect(board.date).to.be.ok;
         });
     });
 
@@ -83,7 +83,20 @@ describe('BoardService: ', function() {
         it('should create new message with creation date', function() {
             boardService.createBoard("my-board");
             var message = boardService.createMessage("my-board", "This is a test");
-            expect(message.date).to.not.equal(undefined);
+            expect(message.date).to.be.ok;
+        });
+
+        it('should create new message with 0 votes', function() {
+            boardService.createBoard("my-board");
+            var message = boardService.createMessage("my-board", "This is a test");
+            expect(message.votes).to.equal(0);
+        });
+
+        it('should create new message with an ID', function() {
+            boardService.createBoard("my-board");
+            var message = boardService.createMessage("my-board", "This is a test");
+            expect(message.id).to.be.ok;
+            expect(message.id.length).to.equal(8);
         });
     });
 });

@@ -1,4 +1,5 @@
 var _ = require('lodash');
+var idGenerator = require('./id-generation.service.js');
 var log4js = require( "log4js" );
 var logger = log4js.getLogger("board.service");
 
@@ -96,7 +97,9 @@ function createMessage(id, text) {
 
         var message = {
             text: text,
-            date: new Date()
+            date: new Date(),
+            votes: 0,
+            id: idGenerator.generateId()
         };
 
         board.messages.push(message);
