@@ -11,10 +11,7 @@ router.get('/boards/:id/messages', function(req, res) {
         res.send(messages);
     }
     else {
-        var error = {
-            message: 'No board found with ID: ' + id
-        };
-        res.status(404).send(error);
+        res.status(404).send();
     }
 });
 
@@ -23,10 +20,7 @@ router.post('/boards/:id/messages', function(req, res) {
     var text = req.body.text;
 
     if(!boardService.hasBoard(id)) {
-        var error = {
-            message: 'No board found with ID: ' + id
-        };
-        res.status(404).send(error);
+        res.status(404).send();
         return;
     }
 
@@ -53,7 +47,15 @@ router.put('/boards/:boardId/messages/:messageId', function(req, res) {
     var message = boardService.findMessage(boardId, messageId);
     if(message) {
 
-        // TODO
+        var text = req.body.text;
+        if(text) {
+            message.text = text;
+        }
+
+        var votes = req.body.votes;
+        if(votes) {
+            message.votes = votes;
+        }
 
     } else {
         res.status(404).send();

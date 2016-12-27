@@ -13,13 +13,9 @@ describe("Route", function () {
         it('/boards/<ID>/messages should return 404 if board was not found', function(done) {
             request(app)
                 .get('/api/boards/unknown/messages')
-                .expect('Content-Type', /json/)
                 .expect(404)
                 .end(function(err, res) {
                     if (err) return done(err);
-
-                    expect(res.body.message).to.equal('No board found with ID: unknown');
-
                     done();
                 });
         });
@@ -111,13 +107,9 @@ describe("Route", function () {
         it('/boards/<ID>/messages should return 404 if board was not found', function(done) {
             request(app)
                 .post('/api/boards/unknown/messages')
-                .expect('Content-Type', /json/)
                 .expect(404)
                 .end(function(err, res) {
                     if (err) return done(err);
-
-                    expect(res.body.message).to.equal('No board found with ID: unknown');
-
                     done();
                 });
         });
