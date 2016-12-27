@@ -1,6 +1,8 @@
 MEBO
 ====
 
+[![Build Status](https://travis-ci.org/tuhrig/mebo.svg?branch=master)](https://travis-ci.org/tuhrig/mebo)
+
 ## Introduction
 
 MEBO stands for Message Board and is a web application to create,
