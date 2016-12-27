@@ -108,10 +108,30 @@ function createMessage(id, text) {
     return null;
 }
 
+function deleteMessage(boardId, messageId) {
+    var board = findBoard(boardId);
+    if(board) {
+
+        var deletedMessages = _.remove(board.messages, function(message) {
+            return message.id === messageId;
+        });
+
+        // Lodash will return an array of deleted objects. However, we can
+        // be sure that there is only one such message as our IDs are unique.
+        // So we return the first (and only!) object of the array.
+        var message = deletedMessages[0];
+        return message || null; // Null or the message! Otherwise we would return
+                                // undefined when no message is found.
+
+    }
+    return null;
+}
+
 module.exports = {
     findBoard: findBoard,
     hasBoard: hasBoard,
     findMessages: findMessages,
     createBoard: createBoard,
-    createMessage: createMessage
+    createMessage: createMessage,
+    deleteMessage: deleteMessage
 };

@@ -99,4 +99,37 @@ describe('BoardService: ', function() {
             expect(message.id.length).to.equal(8);
         });
     });
+
+    describe('deleteMessage', function () {
+
+        it('should delete a message', function () {
+            var board = boardService.createBoard("my-board");
+            var message = boardService.createMessage("my-board", "This is a text");
+
+            expect(board.messages.length).to.equal(1);
+            boardService.deleteMessage("my-board", message.id);
+            expect(board.messages.length).to.equal(0);
+        });
+
+        it('should return the deleted message', function () {
+            var board = boardService.createBoard("my-board");
+            var message = boardService.createMessage("my-board", "This is a text");
+            var deletedMessage = boardService.deleteMessage("my-board", message.id);
+
+            expect(deletedMessage.text).to.equal("This is a text");
+        });
+
+        it('should return null if board is not found', function () {
+            // no board created!
+            var message = boardService.deleteMessage("unknwon-board", "some-id");
+            expect(message).to.equal(null);
+        });
+
+        it('should return null if message is not found', function () {
+            boardService.createBoard("my-board");
+            // no message created!
+            var message = boardService.deleteMessage("my-board", "some-id");
+            expect(message).to.equal(null);
+        });
+    });
 });

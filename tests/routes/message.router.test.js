@@ -44,6 +44,68 @@ describe("Route", function () {
         });
     });
 
+    describe("DELETE", function () {
+
+        it('/boards/<ID>/messages/<ID> should return 404 if board was not found', function(done) {
+            request(app)
+                .delete('/api/boards/unknown/messages/unknown')
+                .expect(404)
+                .end(function(err, res) {
+                    if (err) return done(err);
+                    done();
+                });
+        });
+
+        it('/boards/<ID>/messages/<ID> should return 404 if message was not found', function(done) {
+
+            boardService.createBoard("my-board");
+
+            request(app)
+                .delete('/api/boards/my-board/messages/unknown')
+                .expect(404)
+                .end(function(err, res) {
+                    if (err) return done(err);
+                    done();
+                });
+        });
+
+        it('/boards/<ID>/messages/<ID> should delete message', function(done) {
+
+            boardService.createBoard("my-board");
+            var message = boardService.createMessage("my-board", "This is a text");
+
+            request(app)
+                .delete('/api/boards/my-board/messages/' + message.id)
+                .expect(200)
+                .end(function(err, res) {
+                    if (err) return done(err);
+
+                    var board = boardService.findBoard("my-board");
+                    expect(board.messages.length).to.equal(0);
+
+                    done();
+                });
+        });
+
+        it('/boards/<ID>/messages/<ID> should return deleted message', function(done) {
+
+            boardService.createBoard("my-board");
+            var message = boardService.createMessage("my-board", "This is a text");
+
+            request(app)
+                .delete('/api/boards/my-board/messages/' + message.id)
+                .expect(200)
+                .end(function(err, res) {
+                    if (err) return done(err);
+
+                    expect(res.body.id).to.equal(message.id);
+                    expect(res.body.text).to.equal('This is a text');
+
+                    done();
+                });
+        });
+    });
+    
     describe("POST", function () {
 
         it('/boards/<ID>/messages should return 404 if board was not found', function(done) {

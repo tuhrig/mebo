@@ -34,4 +34,16 @@ router.post('/boards/:id/messages', function(req, res) {
     res.send(message);
 });
 
+router.delete('/boards/:boardId/messages/:messageId', function(req, res) {
+    var boardId = req.params.boardId;
+    var messageId = req.params.messageId;
+
+    var message = boardService.deleteMessage(boardId, messageId);
+    if(message) {
+        res.send(message);
+    } else {
+        res.status(404).send();
+    }
+});
+
 module.exports = router;
