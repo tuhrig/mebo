@@ -20,16 +20,11 @@ function findMessages(id) {
 
 function findMessage(boardId, messageId) {
     var board = boardService.findBoard(boardId);
-    var requestedMessage = null;
     if(board) {
         var messages = board.messages;
-        _.forEach(messages, function (message) {
-            if(message.id === messageId) {
-                requestedMessage = message;
-            }
-        });
+        return _.find(messages, {id: messageId}) || null;
     }
-    return requestedMessage;
+    return null;
 }
 
 /**
