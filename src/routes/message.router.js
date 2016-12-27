@@ -34,8 +34,8 @@ router.post('/boards/:id/messages', function(req, res) {
         return;
     }
 
-    var board = boardService.createMessage(id, text);
-    res.send(board);
+    var message = boardService.createMessage(id, text);
+    res.send(message);
 });
 
 module.exports = router;

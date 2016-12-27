@@ -70,20 +70,20 @@ describe('BoardService: ', function() {
 
         it('should create new message', function() {
             boardService.createBoard("my-board");
-            var board = boardService.createMessage("my-board", "This is a test");
-            expect(board.messages.length).to.equal(1);
+            var message = boardService.createMessage("my-board", "This is a test");
+            expect(message).to.not.equal(null);
         });
 
         it('should create new message with given text', function() {
             boardService.createBoard("my-board");
-            var board = boardService.createMessage("my-board", "This is a test");
-            expect(board.messages[0].text).to.equal("This is a test");
+            var message = boardService.createMessage("my-board", "This is a test");
+            expect(message.text).to.equal("This is a test");
         });
 
         it('should create new message with creation date', function() {
             boardService.createBoard("my-board");
-            var board = boardService.createMessage("my-board", "This is a test");
-            expect(board.messages[0].date).to.not.equal(undefined);
+            var message = boardService.createMessage("my-board", "This is a test");
+            expect(message.date).to.not.equal(undefined);
         });
     });
 });

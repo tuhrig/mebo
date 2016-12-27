@@ -100,14 +100,12 @@ function createMessage(id, text) {
         };
 
         board.messages.push(message);
+        return message;
     }
-    return board;
+    return null;
 }
 
 module.exports = {
-    getBoards: function () {
-        return boards;
-    },
     findBoard: findBoard,
     hasBoard: hasBoard,
     findMessages: findMessages,

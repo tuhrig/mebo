@@ -2,7 +2,6 @@ var chai = require('chai');
 var sinon = require('sinon');
 var request = require('supertest');
 var app = require('../../server.js');
-var chai = require('chai');
 var expect = chai.expect;
 
 var boardService = require('../../src/services/board.service.js');
@@ -13,11 +12,12 @@ describe("Route", function () {
         request(app)
             .get('/api/boards/unknown')
             .expect('Content-Type', /json/)
-            .expect(404, {
-                message: 'No board found with ID: unknown'
-            })
+            .expect(404)
             .end(function(err, res) {
                 if (err) return done(err);
+
+                expect(res.body.message).to.equal('No board found with ID: unknown');
+
                 done();
             });
     });
@@ -63,6 +63,9 @@ describe("Route", function () {
             .expect(409)
             .end(function(err, res) {
                 if (err) return done(err);
+
+                expect(res.body.message).to.equal('Board already exists: my-board-42');
+
                 done();
             });
     });
