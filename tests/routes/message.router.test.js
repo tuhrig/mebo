@@ -5,6 +5,7 @@ var app = require('../../server.js');
 var expect = chai.expect;
 
 var boardService = require('../../src/services/board.service.js');
+var messageService = require('../../src/services/message.service.js');
 
 describe("Route", function () {
 
@@ -27,7 +28,7 @@ describe("Route", function () {
         it('/boards/<ID>/messages should return messages', function(done) {
 
             boardService.createBoard("my-board");
-            boardService.createMessage("my-board", "some sample text");
+            messageService.createMessage("my-board", "some sample text");
 
             request(app)
                 .get('/api/boards/my-board/messages')
@@ -72,7 +73,7 @@ describe("Route", function () {
         it('/boards/<ID>/messages/<ID> should delete message', function(done) {
 
             boardService.createBoard("my-board");
-            var message = boardService.createMessage("my-board", "This is a text");
+            var message = messageService.createMessage("my-board", "This is a text");
 
             request(app)
                 .delete('/api/boards/my-board/messages/' + message.id)
@@ -90,7 +91,7 @@ describe("Route", function () {
         it('/boards/<ID>/messages/<ID> should return deleted message', function(done) {
 
             boardService.createBoard("my-board");
-            var message = boardService.createMessage("my-board", "This is a text");
+            var message = messageService.createMessage("my-board", "This is a text");
 
             request(app)
                 .delete('/api/boards/my-board/messages/' + message.id)
@@ -130,7 +131,7 @@ describe("Route", function () {
                 .end(function(err, res) {
                     if (err) return done(err);
 
-                    var messages = boardService.findMessages("my-board");
+                    var messages = messageService.findMessages("my-board");
 
                     expect(messages.length).to.equal(1);
                     expect(messages[0].text).to.equal("test 123");
@@ -192,7 +193,7 @@ describe("Route", function () {
         it('/boards/<ID>/messages/<ID> should update text', function(done) {
 
             boardService.createBoard("my-board");
-            var message = boardService.createMessage("my-board", "This is a text");
+            var message = messageService.createMessage("my-board", "This is a text");
 
             request(app)
                 .put('/api/boards/my-board/messages/' + message.id)
@@ -211,7 +212,7 @@ describe("Route", function () {
         it('/boards/<ID>/messages/<ID> should update votes', function(done) {
 
             boardService.createBoard("my-board");
-            var message = boardService.createMessage("my-board", "This is a text");
+            var message = messageService.createMessage("my-board", "This is a text");
 
             request(app)
                 .put('/api/boards/my-board/messages/' + message.id)
@@ -230,7 +231,7 @@ describe("Route", function () {
         it('/boards/<ID>/messages/<ID> should update text and votes', function(done) {
 
             boardService.createBoard("my-board");
-            var message = boardService.createMessage("my-board", "This is a text");
+            var message = messageService.createMessage("my-board", "This is a text");
 
             request(app)
                 .put('/api/boards/my-board/messages/' + message.id)

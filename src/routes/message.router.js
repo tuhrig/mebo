@@ -1,11 +1,12 @@
 var express = require('express');
+var messageService = require('../services/message.service.js');
 var boardService = require('../services/board.service.js');
 
 var router = express.Router();
 
 router.get('/boards/:id/messages', function(req, res) {
     var id = req.params.id;
-    var messages = boardService.findMessages(id);
+    var messages = messageService.findMessages(id);
 
     if(messages) {
         res.send(messages);
@@ -24,7 +25,7 @@ router.post('/boards/:id/messages', function(req, res) {
         return;
     }
 
-    var message = boardService.createMessage(id, text);
+    var message = messageService.createMessage(id, text);
     res.send(message);
 });
 
@@ -32,7 +33,7 @@ router.delete('/boards/:boardId/messages/:messageId', function(req, res) {
     var boardId = req.params.boardId;
     var messageId = req.params.messageId;
 
-    var message = boardService.deleteMessage(boardId, messageId);
+    var message = messageService.deleteMessage(boardId, messageId);
     if(message) {
         res.send(message);
     } else {
@@ -44,7 +45,7 @@ router.put('/boards/:boardId/messages/:messageId', function(req, res) {
     var boardId = req.params.boardId;
     var messageId = req.params.messageId;
 
-    var message = boardService.findMessage(boardId, messageId);
+    var message = messageService.findMessage(boardId, messageId);
     if(message) {
 
         var text = req.body.text;
