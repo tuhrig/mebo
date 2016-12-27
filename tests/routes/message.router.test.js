@@ -8,6 +8,10 @@ var boardService = require('../../src/services/board.service.js');
 
 describe("Route", function () {
 
+    beforeEach(function () {
+        boardService.clear();
+    });
+
     describe("GET", function () {
 
         it('/boards/<ID>/messages should return 404 if board was not found', function(done) {
@@ -154,6 +158,89 @@ describe("Route", function () {
                     expect(res.body.votes).to.equal(0);
                     expect(res.body.date).to.be.ok;
                     expect(res.body.id).to.be.ok;
+
+                    done();
+                });
+        });
+    });
+    
+    describe("PUT", function () {
+
+        it('/boards/<ID>/messages/<ID> should return 404 if board was not found', function(done) {
+            request(app)
+                .put('/api/boards/unknown/messages/unknown')
+                .expect(404)
+                .end(function(err, res) {
+                    if (err) return done(err);
+                    done();
+                });
+        });
+
+        it('/boards/<ID>/messages/<ID> should return 404 if message was not found', function(done) {
+
+            boardService.createBoard("my-board");
+
+            request(app)
+                .put('/api/boards/my-board/messages/unknown')
+                .expect(404)
+                .end(function(err, res) {
+                    if (err) return done(err);
+                    done();
+                });
+        });
+
+        it('/boards/<ID>/messages/<ID> should update text', function(done) {
+
+            boardService.createBoard("my-board");
+            var message = boardService.createMessage("my-board", "This is a text");
+
+            request(app)
+                .put('/api/boards/my-board/messages/' + message.id)
+                .send({ text: "A new text" })
+                .expect(200)
+                .end(function(err, res) {
+                    if (err) return done(err);
+
+                    expect(message.text).to.equal("A new text"); // updated!
+                    expect(message.votes).to.equal(0); // still old!
+
+                    done();
+                });
+        });
+
+        it('/boards/<ID>/messages/<ID> should update votes', function(done) {
+
+            boardService.createBoard("my-board");
+            var message = boardService.createMessage("my-board", "This is a text");
+
+            request(app)
+                .put('/api/boards/my-board/messages/' + message.id)
+                .send({ votes: 42 })
+                .expect(200)
+                .end(function(err, res) {
+                    if (err) return done(err);
+
+                    expect(message.text).to.equal("This is a text"); // still old!
+                    expect(message.votes).to.equal(42); // updated!
+
+                    done();
+                });
+        });
+
+        it('/boards/<ID>/messages/<ID> should update text and votes', function(done) {
+
+            boardService.createBoard("my-board");
+            var message = boardService.createMessage("my-board", "This is a text");
+
+            request(app)
+                .put('/api/boards/my-board/messages/' + message.id)
+                .send({ votes: 42, text: "A new text" })
+                .expect(200)
+                .end(function(err, res) {
+                    if (err) return done(err);
+
+                    expect(message.text).to.equal("A new text"); // updated!
+                    expect(message.votes).to.equal(42); // updated!
 
                     done();
                 });

@@ -16,14 +16,7 @@ var boards = [];
  * @returns {*} The message board or null if not found
  */
 function findBoard(id) {
-    var requestedBoard = null;
-    _.forEach(boards, function (board) {
-        if(board.id === id) {
-            logger.info("Found board: [id="+ id + "]" );
-            requestedBoard = board;
-        }
-    });
-    return requestedBoard;
+    return _.find(boards, {id: id}) || null;
 }
 
 /**
@@ -60,7 +53,6 @@ function findMessage(boardId, messageId) {
         var messages = board.messages;
         _.forEach(messages, function (message) {
             if(message.id === messageId) {
-                logger.info("Found message: [id="+ messageId + "]" );
                 requestedMessage = message;
             }
         });
@@ -69,7 +61,6 @@ function findMessage(boardId, messageId) {
 }
 
 function createBoard(id) {
-    logger.info("Create new board: [id="+ id + "]" );
     var board = {
         id: id,
         date: new Date(),
@@ -90,7 +81,6 @@ function createBoard(id) {
  * @returns {*} The updated message board
  */
 function createMessage(id, text) {
-    logger.info("Add new message to board: [id="+ id + "]" );
     var board = findBoard(id);
 
     if(board) {
@@ -127,6 +117,10 @@ function deleteMessage(boardId, messageId) {
     return null;
 }
 
+function clear() {
+    boards = [];
+}
+
 module.exports = {
     findBoard: findBoard,
     hasBoard: hasBoard,
@@ -134,5 +128,6 @@ module.exports = {
     findMessages: findMessages,
     createBoard: createBoard,
     createMessage: createMessage,
-    deleteMessage: deleteMessage
+    deleteMessage: deleteMessage,
+    clear: clear // only for tests!
 };

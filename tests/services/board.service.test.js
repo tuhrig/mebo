@@ -6,6 +6,10 @@ var boardService = require('../../src/services/board.service.js');
 
 describe('BoardService: ', function() {
 
+    beforeEach(function () {
+        boardService.clear();
+    });
+
     describe('findBoard', function () {
 
         it('should return null if no board exists', function() {
@@ -130,9 +134,9 @@ describe('BoardService: ', function() {
             var board = boardService.createBoard("my-board");
             var message = boardService.createMessage("my-board", "This is a text");
 
-            expect(board.messages.length).to.equal(1);
+            expect(boardService.findMessages("my-board").length).to.equal(1);
             boardService.deleteMessage("my-board", message.id);
-            expect(board.messages.length).to.equal(0);
+            expect(boardService.findMessages("my-board").length).to.equal(0);
         });
 
         it('should return the deleted message', function () {

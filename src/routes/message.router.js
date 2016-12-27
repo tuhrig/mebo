@@ -57,6 +57,8 @@ router.put('/boards/:boardId/messages/:messageId', function(req, res) {
             message.votes = votes;
         }
 
+        res.send(message);
+
     } else {
         res.status(404).send();
     }
