@@ -54,7 +54,7 @@ function findMessages(id) {
 }
 
 function findMessage(boardId, messageId) {
-    var board = find(boardId);
+    var board = findBoard(boardId);
     var requestedMessage = null;
     if(board) {
         var messages = board.messages;
@@ -130,6 +130,7 @@ function deleteMessage(boardId, messageId) {
 module.exports = {
     findBoard: findBoard,
     hasBoard: hasBoard,
+    findMessage: findMessage,
     findMessages: findMessages,
     createBoard: createBoard,
     createMessage: createMessage,

@@ -46,4 +46,18 @@ router.delete('/boards/:boardId/messages/:messageId', function(req, res) {
     }
 });
 
+router.put('/boards/:boardId/messages/:messageId', function(req, res) {
+    var boardId = req.params.boardId;
+    var messageId = req.params.messageId;
+
+    var message = boardService.findMessage(boardId, messageId);
+    if(message) {
+
+        // TODO
+
+    } else {
+        res.status(404).send();
+    }
+});
+
 module.exports = router;

@@ -41,10 +41,34 @@ describe('BoardService: ', function() {
             expect(messages).to.equal(null);
         });
 
-        it('should return messages board', function() {
+        it('should return messages from board', function() {
             boardService.createBoard("my-board");
             var messages = boardService.findMessages("my-board");
             expect(messages).to.not.equal(null);
+        });
+    });
+
+    describe('findMessage', function () {
+
+        it('should return null if no board exists', function() {
+            // no board created!
+            var message = boardService.findMessage("unknown", "message-id");
+            expect(message).to.equal(null);
+        });
+
+        it('should return null if no message exists', function() {
+            var board = boardService.createBoard("my-board");
+            // no message created!
+            var message = boardService.findMessage("my-board", "unknown");
+            expect(message).to.equal(null);
+        });
+
+        it('should return message', function() {
+            boardService.createBoard("my-board");
+            var message = boardService.createMessage("my-board", "This is a test");
+            var foundMessage = boardService.findMessage("my-board", message.id);
+            expect(foundMessage).to.not.equal(null);
+            expect(foundMessage).to.equal(message);
         });
     });
 
