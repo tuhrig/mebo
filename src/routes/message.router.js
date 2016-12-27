@@ -1,5 +1,5 @@
 var express = require('express');
-var boardService = require('../services/boardService.js');
+var boardService = require('../services/board.service.js');
 var bodyParser = require('body-parser');
 
 var router = express.Router();

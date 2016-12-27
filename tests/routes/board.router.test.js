@@ -5,10 +5,9 @@ var app = require('../../server.js');
 var chai = require('chai');
 var expect = chai.expect;
 
-var boardService = require('../../src/services/boardService.js');
+var boardService = require('../../src/services/board.service.js');
 
-describe("Route /boards", function () {
-
+describe("Route", function () {
 
     it('GET /boards/<ID> should return 404 if board was not found', function(done) {
         request(app)
@@ -40,15 +39,31 @@ describe("Route /boards", function () {
     it('POST /boards/<ID> should create board', function(done) {
 
         request(app)
-            .post('/api/boards/my-board')
+            .post('/api/boards/my-board-123')
             .expect('Content-Type', /json/)
             .expect(200)
             .end(function(err, res) {
                 if (err) return done(err);
+
+                // async!
+                var hasBoard = boardService.hasBoard("my-board-123");
+                expect(hasBoard).to.equal(true);
+
                 done();
             });
+    });
 
-        var hasBoard = boardService.hasBoard("my-board");
-        expect(hasBoard).to.equal(true);
+    it('POST /boards/<ID> should return conflict if board ID already exists', function(done) {
+
+        boardService.createBoard("my-board-42");
+
+        request(app)
+            .post('/api/boards/my-board-42')
+            .expect('Content-Type', /json/)
+            .expect(409)
+            .end(function(err, res) {
+                if (err) return done(err);
+                done();
+            });
     });
 });

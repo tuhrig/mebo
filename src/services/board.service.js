@@ -1,6 +1,6 @@
 var _ = require('lodash');
 var log4js = require( "log4js" );
-var logger = log4js.getLogger("boardService");
+var logger = log4js.getLogger("board.service");
 
 logger.info("Init boardService");
 
@@ -25,6 +25,13 @@ function findBoard(id) {
     return requestedBoard;
 }
 
+/**
+ * This function will check if a message board with the given ID already
+ * exists or not. If so, it will return true. Otherwise false.
+ *
+ * @param id The ID of the message board to check
+ * @returns {boolean} True if a board with the given ID exists
+ */
 function hasBoard(id) {
     return !!findBoard(id);
 }
@@ -98,6 +105,9 @@ function createMessage(id, text) {
 }
 
 module.exports = {
+    getBoards: function () {
+        return boards;
+    },
     findBoard: findBoard,
     hasBoard: hasBoard,
     findMessages: findMessages,
