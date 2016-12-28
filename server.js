@@ -19,7 +19,13 @@ var messageRouter = require('./src/routes/message.router.js');
 app.use('/api', boardRouter);
 app.use('/api', messageRouter);
 
-var server = app.listen(5000);
-logger.info("Running on port 5000");
+// VCAP_APP_PORT is a Cloud Foundry environment variable. It's used when
+// the app is deployed to a Cloud Foundry server, for example in IBM Bluemix.
+// If it's not set, we use the default port 8080, e.g. for our local system
+// during development.
+var port = process.env.VCAP_APP_PORT || 8080;
+var server = app.listen(port);
+
+logger.info("Running on port " + port);
 
 module.exports = app;
