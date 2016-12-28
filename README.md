@@ -16,6 +16,12 @@ Read more at: https://www.coursera.org/learn/web-development-project.
 - You can create a board and share it's link to anyone else
 - No login, no users - full collaboration
 
+## Demo
+
+See the running demo at:
+
+http://mebo.mybluemix.net/public/index.html#/home
+
 ## Development
 
 Install all dependencies:
@@ -35,3 +41,18 @@ Run the tests:
 ```
 npm test
 ```
+
+## Deployment
+
+The application can be deployt to a Cloud Foundry server, e.g. at IBM Bluemix.
+
+
+```
+cf api https://api.ng.bluemix.net
+cf login
+cf push
+```
+
+## Resources
+
+- IBM Bluemix example: https://github.com/IBM-Bluemix/node-helloworld
