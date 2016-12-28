@@ -2,3 +2,4 @@
 .idea/workspace.xml
 bin/
 node_modules/
+npm-debug.log

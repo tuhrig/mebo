@@ -2,7 +2,7 @@
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-body">
-                {{ $ctrl.message.text }}
+                <span ng-bind-html="$ctrl.textAsHtml"></span>
             </div>
             <div class="panel-footer">
 

@@ -2,39 +2,28 @@
 
     angular.module('mebo.service').factory('MessageService', MessageServiceFactory);
 
-    MessageServiceFactory.$inject = ['$q'];
+    MessageServiceFactory.$inject = ['$q', '$http'];
 
-    function MessageServiceFactory($q) {
+    function MessageServiceFactory($q, $http) {
 
         var boards = {};
 
         function post(board, message) {
 
-            if(!_.has(boards, board)) {
-                console.log("init board");
-                boards[board] = [];
-            }
+            return $http.post("/api/boards/" + board + "/messages", message).then(function (result) {
 
-            message.date = Date();
-            message.votes = 0;
+                boards[board].messages.push(result.data);
 
-            boards[board].push(message);
-
-            var deferred = $q.defer();
-            deferred.resolve();
-            return deferred.promise;
+                return result.data;
+            });
         }
 
         function get(board) {
+            return $http.get("/api/boards/" + board).then(function (result) {
 
-            if(!_.has(boards, board)) {
-                console.log("init board");
-                boards[board] = [];
-            }
-
-            var deferred = $q.defer();
-            deferred.resolve(boards[board]);
-            return deferred.promise;
+                boards[board] = result.data;
+                return result.data.messages;
+            });
         }
 
         return {

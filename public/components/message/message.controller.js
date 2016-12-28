@@ -2,9 +2,9 @@
 
     angular.module('mebo.components').controller('MessageController', MessageController);
 
-    MessageController.$inject = [];
+    MessageController.$inject = ['$sce'];
 
-    function MessageController() {
+    function MessageController($sce) {
 
         var vm = this;
 
@@ -16,5 +16,7 @@
             vm.message.votes += 1;
         };
 
+
+        vm.textAsHtml = $sce.trustAsHtml(vm.message.text);
     }
 })();
