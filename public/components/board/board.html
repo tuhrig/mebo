@@ -8,8 +8,19 @@
     <message message="message"></message>
 </div>
 
+<div ng-if="$ctrl.messages.length === 0">
+    <div class="alert alert-warning" role="alert">This board is empty - let's post a new message!</div>
+</div>
+
 <hr>
 
 <h4>Post a new message</h4>
 
 <message-creator></message-creator>
+
+<b>Note:</b>
+
+<ul>
+    <li>HTML syntax is supported</li>
+    <li>Messages can be edited later on</li>
+</ul>

@@ -13,10 +13,11 @@
             MessageService.post(board, {
                 title: vm.title,
                 text: vm.text
+            }).then(function () {
+                vm.text = "";
             });
         };
 
-        vm.title = "";
         vm.text = "";
     }
 })();
