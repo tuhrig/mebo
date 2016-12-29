@@ -29,10 +29,15 @@
         function put(board, message, content) {
 
             return $http.put("/api/boards/" + board + "/messages/" + message, content).then(function (result) {
-                boards[board] = result.data;
+                //boards[board] = result.data; TODO
+                return result.data;
+            });
+        }
 
-                console.log(result.data);
+        function remove(board, message) {
 
+            return $http.delete("/api/boards/" + board + "/messages/" + message).then(function (result) {
+                //boards[board] = result.data; TODO
                 return result.data;
             });
         }
@@ -40,7 +45,8 @@
         return {
             post: post,
             get: get,
-            put: put
+            put: put,
+            delete: remove
         };
     }
 }());

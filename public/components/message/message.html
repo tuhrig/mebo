@@ -4,18 +4,24 @@
             <div class="panel-body">
 
 
-                <span ng-show="!$ctrl.editMode" ng-bind-html="$ctrl.textAsHtml"></span>
+                <div ng-show="!$ctrl.deadMode">
+                    <span ng-show="!$ctrl.editMode" ng-bind-html="$ctrl.textAsHtml"></span>
+                    <textarea ng-show="$ctrl.editMode" type="text" class="form-control" ng-model="$ctrl.message.text"></textarea>
+                </div>
 
-                <textarea ng-show="$ctrl.editMode" type="text" class="form-control" ng-model="$ctrl.message.text"></textarea>
+                <div ng-show="$ctrl.deadMode">
+                    This message has been deleted!
+                </div>
+
             </div>
-            <div class="panel-footer">
+            <div class="panel-footer" ng-show="!$ctrl.deadMode">
 
-                <div ng-show="!$ctrl.editMode">
-                    <button type="button" ng-click="$ctrl.edit()" class="btn btn-default btn-sm">
+                <div ng-show="$ctrl.readMode">
+                    <button type="button" ng-click="$ctrl.activateEditMode()" class="btn btn-default btn-sm">
                         <span class="glyphicon glyphicon-pencil"></span>
                     </button>
 
-                    <button type="button" class="btn btn-default btn-sm">
+                    <button type="button" ng-click="$ctrl.activateDeleteMode()" class="btn btn-default btn-sm">
                         <span class="glyphicon glyphicon-trash"></span>
                     </button>
 
@@ -32,8 +38,13 @@
                 </div>
 
                 <div ng-show="$ctrl.editMode">
-                    <button type="button" class="btn btn-success btn-sm" ng-click="$ctrl.put()">Save</button>
-                    <button type="button" class="btn btn-default btn-sm" ng-click="$ctrl.cancel()">Cancel</button>
+                    <button type="button" class="btn btn-success btn-sm" ng-click="$ctrl.edit()">Save</button>
+                    <button type="button" class="btn btn-default btn-sm" ng-click="$ctrl.activateReadMode()">Cancel</button>
+                </div>
+
+                <div ng-show="$ctrl.deleteMode">
+                    <button type="button" class="btn btn-danger btn-sm" ng-click="$ctrl.delete()">Delete</button>
+                    <button type="button" class="btn btn-default btn-sm" ng-click="$ctrl.activateReadMode()">Cancel</button>
                 </div>
 
             </div>
