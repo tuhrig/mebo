@@ -15,8 +15,9 @@
         Otherwise the content are will be behind the footer as the footer
         is positioned absolute.
     */
-    padding-top: 130px;
-    padding-bottom:80px;
+
+    margin-bottom: 80px;
+    margin-top: 90px;
 }
 
 footer-bar {
@@ -45,4 +46,11 @@ body {
 
 .message-date {
     float: right;
+}
+
+.mebo-content {
+    padding: 20px;
+    background-color: white;
+    background-color: hsla(0, 0%, 100%, 0.5);
+    border-radius: 5px;
 }
