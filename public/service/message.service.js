@@ -26,9 +26,21 @@
             });
         }
 
+        function put(board, message, content) {
+
+            return $http.put("/api/boards/" + board + "/messages/" + message, content).then(function (result) {
+                boards[board] = result.data;
+
+                console.log(result.data);
+
+                return result.data;
+            });
+        }
+
         return {
             post: post,
-            get: get
+            get: get,
+            put: put
         };
     }
 }());

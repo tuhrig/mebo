@@ -49,6 +49,7 @@ router.put('/boards/:boardId/messages/:messageId', function(req, res) {
     if(message) {
 
         var text = req.body.text;
+
         if(text) {
             message.text = text;
         }

@@ -51,6 +51,17 @@ body {
 .mebo-content {
     padding: 20px;
     background-color: white;
-    background-color: hsla(0, 0%, 100%, 0.5);
+    background-color: hsla(0, 0%, 100%, 0.9);
     border-radius: 5px;
+    min-height: calc(100vh - 170px);  // 170 = margin-top 80 + margin-bottom 90 of .content-area
+}
+
+.title {
+    font-size: 150px;
+}
+
+.landing-content {
+    margin-top: 100px;
+    margin-bottom: 100px;
+    padding: 50px;
 }

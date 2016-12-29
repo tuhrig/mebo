@@ -2,28 +2,39 @@
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-body">
-                <span ng-bind-html="$ctrl.textAsHtml"></span>
+
+
+                <span ng-show="!$ctrl.editMode" ng-bind-html="$ctrl.textAsHtml"></span>
+
+                <textarea ng-show="$ctrl.editMode" type="text" class="form-control" ng-model="$ctrl.message.text"></textarea>
             </div>
             <div class="panel-footer">
 
-                <button type="button" class="btn btn-default btn-sm">
-                    <span class="glyphicon glyphicon-pencil"></span>
-                </button>
+                <div ng-show="!$ctrl.editMode">
+                    <button type="button" ng-click="$ctrl.edit()" class="btn btn-default btn-sm">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </button>
 
-                <button type="button" class="btn btn-default btn-sm">
-                    <span class="glyphicon glyphicon-trash"></span>
-                </button>
+                    <button type="button" class="btn btn-default btn-sm">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
 
-                <button type="button" ng-click="$ctrl.voteDown()" class="btn btn-default btn-sm">
-                    <span class="glyphicon glyphicon-triangle-bottom"></span>
-                </button>
+                    <button type="button" ng-click="$ctrl.voteDown()" class="btn btn-default btn-sm">
+                        <span class="glyphicon glyphicon-triangle-bottom"></span>
+                    </button>
 
-                <button type="button" ng-click="$ctrl.voteUp()" class="btn btn-default btn-sm">
-                    <span class="glyphicon glyphicon-triangle-top"></span>
-                </button>
+                    <button type="button" ng-click="$ctrl.voteUp()" class="btn btn-default btn-sm">
+                        <span class="glyphicon glyphicon-triangle-top"></span>
+                    </button>
 
-                <span class="message-votes">{{ $ctrl.message.votes }}</span>
-                <span class="message-date">{{ $ctrl.message.date }}</span>
+                    <span class="message-votes">{{ $ctrl.message.votes }}</span>
+                    <span class="message-date">{{ $ctrl.message.date }}</span>
+                </div>
+
+                <div ng-show="$ctrl.editMode">
+                    <button type="button" class="btn btn-success btn-sm" ng-click="$ctrl.put()">Save</button>
+                    <button type="button" class="btn btn-default btn-sm" ng-click="$ctrl.cancel()">Cancel</button>
+                </div>
 
             </div>
         </div>
