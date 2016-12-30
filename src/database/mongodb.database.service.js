@@ -28,6 +28,8 @@ mongoose.Promise = require('q').Promise;
  */
 function config() {
 
+    log.info("Configure database connection of MongoDB");
+
     // We check the CloudFoundry credentials for our application. If we have
     // such credentials, we know that we are running on CloudFoundry (and not
     // local) and that we can connect to the Cloud Foundry database. However,
@@ -71,7 +73,7 @@ config();
 var Schema = mongoose.Schema;
 
 var Message = new Schema({
-        id: {type: String, required: true},
+        id: {type: String, unique : true, required: true},
         text: String,
         votes: Number,
         date: {
@@ -82,7 +84,7 @@ var Message = new Schema({
 );
 
 var BoardSchema = new Schema({
-        id: {type: String, required: true},
+        id: {type: String, unique : true, required: true},
         messages: [Message],
         date: {
             type: Date,
@@ -94,25 +96,68 @@ var BoardSchema = new Schema({
 var Board = mongoose.model('Board', BoardSchema);
 
 function saveBoard(board) {
-    var boardEntity = new Board(board);
-    return boardEntity.save().then(function (board) {
-        if(board) {
-            logger.info("Saved board with ID: " + board.id);
+
+    // Note: I had a lot of trouble with this function. The main problem is that IBM
+    // Bluemix (which I must use as my PaaS) used an old version of MongoDB (v. 2.4)
+    // while the current version is something like 3.4. This old version of MongoDB
+    // has a known bug (see: https://github.com/joegoldbeck/mongoose-encryption/issues/16).
+    // This bug causes MongoDB to throw an error if an entity with "_id" is saved.
+    // Instead we need to make an update.
+
+    log.debug("Saving board with ID: " + board.id);
+
+    return Board.findOne({id: board.id}).then(function(foundBoard) {
+
+        // We need to switch between two situations: The board might already exist, so
+        // we will find it by its ID. In this case we update the messages and save the
+        // board. However, if we don't find any board, the board simply doesn't exist
+        // yet. In this case, we need to make a new board entity and save a new board
+        // to MongoDB.
+
+        if(foundBoard) {
+
+            foundBoard.messages = board.messages;
+            return foundBoard.save().then(function (board) {
+                if(board) {
+                    logger.info("Saved board with ID: " + board.id);
+                } else {
+                    logger.warn("Cannot save board", board);
+                }
+                return board;
+            }, function (error) {
+                logger.warn("Cannot save board", error);
+            });
+
         } else {
-            logger.warn("Cannot save board", board);
+
+            var boardEntity = new Board(board);
+            return boardEntity.save().then(function (board) {
+                if(board) {
+                    logger.info("Created board with ID: " + board.id);
+                } else {
+                    logger.warn("Cannot create board", board);
+                }
+                return board;
+            }, function (error) {
+                logger.warn("Cannot create board", error);
+            });
         }
-        return board;
     });
 }
 
 function findBoard(id) {
+
+    log.debug("Finding board with ID: " + id);
+
     return Board.findOne({ id: id }).then(function (board) {
         if(board) {
-            logger.info("Found board for ID: " + id);
+            logger.debug("Found board for ID: " + id);
         } else {
             logger.info("No board found for ID: " + id);
         }
         return board;
+    }, function (error) {
+        logger.warn("Cannot find board", error);
     });
 }
 
