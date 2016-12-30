@@ -28,7 +28,7 @@ mongoose.Promise = require('q').Promise;
  */
 function config() {
 
-    log.info("Configure database connection of MongoDB");
+    logger.info("Configure database connection of MongoDB");
 
     // We check the CloudFoundry credentials for our application. If we have
     // such credentials, we know that we are running on CloudFoundry (and not
@@ -102,9 +102,11 @@ function saveBoard(board) {
     // while the current version is something like 3.4. This old version of MongoDB
     // has a known bug (see: https://github.com/joegoldbeck/mongoose-encryption/issues/16).
     // This bug causes MongoDB to throw an error if an entity with "_id" is saved.
-    // Instead we need to make an update.
+    // Instead we need to make an update. If IBM Bluemix would use the current version
+    // of MongoDB we could simple use the later case and save an existing board just like
+    // we save a new board.
 
-    log.debug("Saving board with ID: " + board.id);
+    logger.debug("Saving board with ID: " + board.id);
 
     return Board.findOne({id: board.id}).then(function(foundBoard) {
 
@@ -147,7 +149,7 @@ function saveBoard(board) {
 
 function findBoard(id) {
 
-    log.debug("Finding board with ID: " + id);
+    logger.debug("Finding board with ID: " + id);
 
     return Board.findOne({ id: id }).then(function (board) {
         if(board) {
