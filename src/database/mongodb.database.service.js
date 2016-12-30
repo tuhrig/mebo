@@ -5,6 +5,8 @@
  */
 var mongoose = require('mongoose');
 var _ = require('lodash');
+var cfenv = require('cfenv');
+var logger = require('log4js').getLogger("db");
 
 // The usage of the default mongoose promise implementation is deprecated.
 // It's recommended to add another promise implementation, what we are doing
@@ -13,48 +15,60 @@ var _ = require('lodash');
 // See: http://mongoosejs.com/docs/promises.html
 mongoose.Promise = require('q').Promise;
 
+/**
+ * This function will configure the MongoDB database connection. It has two
+ * ways of configuration:
+ *
+ *  - We can use a local MongoDB database. This is useful for development and
+ *    very easy to setup.
+ *  - We can use a MongoDB as a CloudFoundry service. This is used to run the
+ *    app in production.
+ *
+ *  Note: The Cloud Foundry integration is only tested on IBM Bluemix!
+ */
+function config() {
 
+    // We check the CloudFoundry credentials for our application. If we have
+    // such credentials, we know that we are running on CloudFoundry (and not
+    // local) and that we can connect to the Cloud Foundry database. However,
+    // if we don't have any credentials, we use our local MongoDB instance to
+    // run in "development mode".
+    var cloudFoundryCredentials = getCloudFoundryCredentials();
+    if(cloudFoundryCredentials) {
 
+        console.log("Connect to CloudFoundry MongoDB: " + cloudFoundryCredentials.url);
+        console.log("Connect as: " + cloudFoundryCredentials.username);
 
+        mongoose.connect(cloudFoundryCredentials.url, {
+                user: cloudFoundryCredentials.username,
+                pass: cloudFoundryCredentials.password
+        });
+    } else {
 
-var cfenv = require('cfenv');
-var appenv = cfenv.getAppEnv();
-
-// Within the application environment (appenv) there's a services object
-var services = appenv.services;
-
-console.log("Services", services);
-if(!_.isEmpty(services)) {
-
-
-
-    var mongoDbService = services["mongodb"][0];
-
-    console.log("MongoDB service", mongoDbService);
-    console.log("Use MongoDB credentials", mongoDbService.credentials);
-    console.log("Connect to CloudFoundry MongoDB: " + mongoDbService.credentials.url);
-    console.log("Connect as: " + mongoDbService.credentials.username);
-
-    mongoose.connect(mongoDbService.credentials.url, {
-            user: mongoDbService.credentials.username,
-            pass: mongoDbService.credentials.password
-        }
-    );
-
-} else {
-
-    var mongoDbUrl = 'mongodb://localhost/mebo';
-    console.log("Connect to local MongoDB: " + mongoDbUrl);
-    mongoose.connect(mongoDbUrl);
+        var mongoDbUrl = 'mongodb://localhost/mebo';
+        console.log("Connect to local MongoDB: " + mongoDbUrl);
+        mongoose.connect(mongoDbUrl);
+    }
 }
 
+/**
+ * This function will return a credentials object for our MongoDB in Cloud Foundry.
+ * If such a service is not available (for example because we run the app locally
+ * and not on Cloud Foundry) null will be returned.
+ */
+function getCloudFoundryCredentials() {
+    var appenv = cfenv.getAppEnv();
+    var services = appenv.services;
+    if(_.isEmpty(services)) {
+        return null;
+    }
+    var mongoDbService = services["mongodb"][0];
+    return mongoDbService.credentials;
+}
 
-
+config();
 
 var Schema = mongoose.Schema;
-
-var log4js = require('log4js');
-var logger = log4js.getLogger("db");
 
 var Message = new Schema({
         id: {type: String, required: true},

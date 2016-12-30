@@ -6,10 +6,6 @@ var boardService = require('../../src/services/board.service.js');
 
 describe('BoardService: ', function() {
 
-    beforeEach(function () {
-        boardService.clear();
-    });
-
     describe('findBoard', function () {
 
         it('should return null if no board exists', function() {

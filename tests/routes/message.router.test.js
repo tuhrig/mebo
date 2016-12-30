@@ -8,11 +8,6 @@ var messageService = require('../../src/services/message.service.js');
 
 describe("Route", function () {
 
-    beforeEach(function () {
-        boards = {};
-        boardService.clear();
-    });
-
     describe("GET", function () {
 
         it('/boards/<ID>/messages should return 404 if board was not found', function(done) {

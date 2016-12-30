@@ -1,9 +1,6 @@
 var _ = require('lodash');
 var database = require('./../database/database.service.js');
 
-// TODO Replace this memory based implementation with a MongoDB!
-var boards = [];
-
 /**
  * This function will return the message board with the requested
  * ID. If no such board exists, null will be returned.
@@ -36,7 +33,6 @@ function createBoard(id) {
     };
 
     return database.saveBoard(board).then(function (b) {
-        boards.push(board);
         return board;
     });
 }
@@ -47,14 +43,10 @@ function updateBoard(board) {
     });
 }
 
-function clear() {
-    boards = [];
-}
 
 module.exports = {
     updateBoard: updateBoard,
     findBoard: findBoard,
     hasBoard: hasBoard,
-    createBoard: createBoard,
-    clear: clear // only for tests!
+    createBoard: createBoard
 };

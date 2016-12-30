@@ -7,10 +7,6 @@ var messageService = require('../../src/services/message.service.js');
 
 describe('MessageService: ', function() {
 
-    beforeEach(function () {
-        boardService.clear();
-    });
-
     describe('findMessages', function () {
 
         it('should return null if no board exists', function() {
