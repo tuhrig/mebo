@@ -1,5 +1,13 @@
 ---
+declared-services:
+  mebo-mongo:
+    label: mongodb
+    plan: 100
 applications:
 - name:    mebo
   host:    mebo
   memory:  128M
+  services:
+  - mebo-mongo
+  env:
+    NODE_ENV: cloud-foundry

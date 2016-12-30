@@ -1,15 +1,11 @@
 var chai = require('chai');
 var expect = chai.expect;
-var sinon = require('sinon');
 var q = require('q');
-var rewire = require("rewire");
 
 var boardService = require('../../src/services/board.service.js');
 var messageService = require('../../src/services/message.service.js');
 
 describe('MessageService: ', function() {
-
-
 
     beforeEach(function () {
         boardService.clear();

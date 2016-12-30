@@ -50,8 +50,16 @@ The application can be deployt to a Cloud Foundry server, e.g. at IBM Bluemix.
 ```
 cf api https://api.ng.bluemix.net
 cf login
+cf create-service mongodb 100 mebo-mongo
 cf push
 ```
+
+Show logs:
+
+```
+cf logs mebo
+```
+
 
 ## Resources
 

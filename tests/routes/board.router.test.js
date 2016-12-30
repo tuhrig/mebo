@@ -1,10 +1,7 @@
 var chai = require('chai');
-var sinon = require('sinon');
 var request = require('supertest');
 var app = require('../../server.js');
 var expect = chai.expect;
-var q = require('q');
-var rewire = require("rewire");
 
 var boardService = require('../../src/services/board.service.js');
 
