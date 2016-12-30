@@ -7,7 +7,6 @@ var q = require('q');
 
 var boardService = require('../../src/services/board.service.js');
 var messageService = require('../../src/services/message.service.js');
-var database = require('../../src/services/database.service.js');
 
 describe("Route", function () {
 

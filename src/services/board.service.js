@@ -1,5 +1,5 @@
 var _ = require('lodash');
-var database = require('./database.service.js');
+var database = require('./../database/database.service.js');
 
 // TODO Replace this memory based implementation with a MongoDB!
 var boards = [];
