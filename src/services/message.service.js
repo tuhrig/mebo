@@ -11,20 +11,22 @@ var idGenerator = require('./id-generation.service.js');
  * @returns {*} The messages or null if no board found
  */
 function findMessages(id) {
-    var board = boardService.findBoard(id);
-    if(board) {
-        return board.messages;
-    }
-    return null;
+    return boardService.findBoard(id).then(function(board) {
+        if(board) {
+            return board.messages;
+        }
+        return null;
+    });
 }
 
 function findMessage(boardId, messageId) {
-    var board = boardService.findBoard(boardId);
-    if(board) {
-        var messages = board.messages;
-        return _.find(messages, {id: messageId}) || null;
-    }
-    return null;
+    return boardService.findBoard(boardId).then(function(board) {
+        if(board) {
+            var messages = board.messages;
+            return _.find(messages, {id: messageId}) || null;
+        }
+        return null;
+    });
 }
 
 /**
@@ -38,45 +40,75 @@ function findMessage(boardId, messageId) {
  * @returns {*} The updated message board
  */
 function createMessage(id, text) {
-    var board = boardService.findBoard(id);
+    return boardService.findBoard(id).then(function(board) {
+        if(board) {
 
-    if(board) {
+            var message = {
+                text: text,
+                date: new Date(),
+                votes: 0,
+                id: idGenerator.generateId()
+            };
 
-        var message = {
-            text: text,
-            date: new Date(),
-            votes: 0,
-            id: idGenerator.generateId()
-        };
+            board.messages.push(message);
 
-        board.messages.push(message);
-        return message;
-    }
-    return null;
+            boardService.updateBoard(board);
+
+            return message;
+        }
+        return null;
+    });
 }
 
 function deleteMessage(boardId, messageId) {
-    var board = boardService.findBoard(boardId);
-    if(board) {
+    return boardService.findBoard(boardId).then(function(board) {
+        if(board) {
 
-        var deletedMessages = _.remove(board.messages, function(message) {
-            return message.id === messageId;
-        });
+            var deletedMessages = _.remove(board.messages, function(message) {
+                return message.id === messageId;
+            });
 
-        // Lodash will return an array of deleted objects. However, we can
-        // be sure that there is only one such message as our IDs are unique.
-        // So we return the first (and only!) object of the array.
-        var message = deletedMessages[0];
-        return message || null; // Null or the message! Otherwise we would return
-                                // undefined when no message is found.
+            boardService.updateBoard(board);
 
-    }
-    return null;
+            // Lodash will return an array of deleted objects. However, we can
+            // be sure that there is only one such message as our IDs are unique.
+            // So we return the first (and only!) object of the array.
+            var message = deletedMessages[0];
+            return message || null; // Null or the message! Otherwise we would return
+                                    // undefined when no message is found.
+
+        }
+        return null;
+    });
+}
+
+function updateMessage(boardId, messageId, text, votes) {
+    return boardService.findBoard(boardId).then(function(board) {
+        if(board) {
+            var messages = board.messages;
+            var message = _.find(messages, {id: messageId}) || null;
+            if(message) {
+
+                if(text) {
+                    message.text = text;
+                }
+
+                if(votes) {
+                    message.votes = votes;
+                }
+            }
+
+            boardService.updateBoard(board);
+            return message;
+        }
+        return null;
+    });
 }
 
 module.exports = {
     findMessage: findMessage,
     findMessages: findMessages,
     createMessage: createMessage,
-    deleteMessage: deleteMessage
+    deleteMessage: deleteMessage,
+    updateMessage: updateMessage
 };

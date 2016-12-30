@@ -1,4 +1,5 @@
 var _ = require('lodash');
+var database = require('./database.service.js');
 
 // TODO Replace this memory based implementation with a MongoDB!
 var boards = [];
@@ -11,7 +12,7 @@ var boards = [];
  * @returns {*} The message board or null if not found
  */
 function findBoard(id) {
-    return _.find(boards, {id: id}) || null;
+    return database.findBoard(id);
 }
 
 /**
@@ -22,7 +23,9 @@ function findBoard(id) {
  * @returns {boolean} True if a board with the given ID exists
  */
 function hasBoard(id) {
-    return !!findBoard(id);
+    return findBoard(id).then(function (board) {
+        return !!board;
+    });
 }
 
 function createBoard(id) {
@@ -31,8 +34,17 @@ function createBoard(id) {
         date: new Date(),
         messages: []
     };
-    boards.push(board);
-    return board;
+
+    return database.saveBoard(board).then(function (b) {
+        boards.push(board);
+        return board;
+    });
+}
+
+function updateBoard(board) {
+    return database.saveBoard(board).then(function (b) {
+        return board;
+    });
 }
 
 function clear() {
@@ -40,6 +52,7 @@ function clear() {
 }
 
 module.exports = {
+    updateBoard: updateBoard,
     findBoard: findBoard,
     hasBoard: hasBoard,
     createBoard: createBoard,

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node server.js",
-    "test": "mocha tests --recursive"
+    "test": "TEST=true mocha --recursive tests"
   },
   "dependencies": {
     "body-parser": "^1.15.2",
@@ -14,7 +14,11 @@
     "jade": "~1.11.0",
     "lodash": "^4.17.2",
     "log4js": "^1.1.0",
+    "mongodb": "^2.2.16",
+    "mongoose": "^4.7.5",
     "morgan": "~1.7.0",
+    "q": "^1.4.1",
+    "rewire": "^2.5.2",
     "serve-favicon": "~2.3.0",
     "sinon": "^1.17.6",
     "supertest": "^2.0.1"

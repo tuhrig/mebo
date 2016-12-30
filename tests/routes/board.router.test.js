@@ -3,6 +3,8 @@ var sinon = require('sinon');
 var request = require('supertest');
 var app = require('../../server.js');
 var expect = chai.expect;
+var q = require('q');
+var rewire = require("rewire");
 
 var boardService = require('../../src/services/board.service.js');
 
@@ -11,13 +13,9 @@ describe("Route", function () {
     it('GET /boards/<ID> should return 404 if board was not found', function(done) {
         request(app)
             .get('/api/boards/unknown')
-            .expect('Content-Type', /json/)
             .expect(404)
             .end(function(err, res) {
                 if (err) return done(err);
-
-                expect(res.body.message).to.equal('No board found with ID: unknown');
-
                 done();
             });
     });
@@ -46,10 +44,10 @@ describe("Route", function () {
                 if (err) return done(err);
 
                 // async!
-                var hasBoard = boardService.hasBoard("my-board-123");
-                expect(hasBoard).to.equal(true);
-
-                done();
+                boardService.hasBoard("my-board-123").then(function (hasBoard) {
+                    expect(hasBoard).to.equal(true);
+                    done();
+                });
             });
     });
 
@@ -59,13 +57,9 @@ describe("Route", function () {
 
         request(app)
             .post('/api/boards/my-board-42')
-            .expect('Content-Type', /json/)
             .expect(409)
             .end(function(err, res) {
                 if (err) return done(err);
-
-                expect(res.body.message).to.equal('Board already exists: my-board-42');
-
                 done();
             });
     });
