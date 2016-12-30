@@ -1,15 +1,15 @@
 (function(){
 
-    angular.module('mebo.service').factory('httpRequestInterceptor', function ($q) {
+    angular.module('mebo.error').factory('httpRequestInterceptor', function ($q) {
         return {
             'responseError': function(rejection) {
-                console.log("Show error popover");
+                $('#errorModal').modal('show');
                 return $q.reject(rejection);
             }
         };
     });
 
-    angular.module('mebo.service').config( function ($httpProvider) {
+    angular.module('mebo.error').config( function ($httpProvider) {
         $httpProvider.interceptors.push('httpRequestInterceptor');
     });
 }());
