@@ -1,16 +1,17 @@
 var express = require('express');
 var fs = require('fs');
-var log4js = require( "log4js" );
+var logger = require( "log4js" ).getLogger("app");
 var bodyParser = require('body-parser');
-
-var logger = log4js.getLogger("app");
 
 logger.info("..--##≤≤ ,,..--..,, >>##--..");
 logger.info("..--##≤≤ Start MEBO >>##--..");
 logger.info("..--##≤≤ ,,..--..,, >>##--..");
 
 var app = express();
-app.use(express.static(__dirname)); //Serves resources from public folder
+
+// Maps all files under /public to the root path of the application.
+// So calling http://localhost:8080 will directly map to the index.html!
+app.use("/", express.static(__dirname + "/public"));
 app.use(bodyParser.json());
 
 var boardRouter = require('./src/routes/board.router.js');

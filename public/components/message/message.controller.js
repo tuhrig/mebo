@@ -15,11 +15,20 @@
 
         vm.voteDown = function () {
             vm.message.votes -= 1;
+            updateVotes();
         };
 
         vm.voteUp = function () {
             vm.message.votes += 1;
+            updateVotes();
         };
+
+        function updateVotes() {
+            var board = BoardService.getCurrentBoard();
+            MessageService.put(board, vm.message.id, {
+                votes: vm.message.votes
+            })
+        }
 
         vm.activateReadMode = function() {
             vm.readMode = true;

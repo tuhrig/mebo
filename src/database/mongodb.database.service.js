@@ -38,8 +38,8 @@ function config() {
     var cloudFoundryCredentials = getCloudFoundryCredentials();
     if(cloudFoundryCredentials) {
 
-        console.log("Connect to CloudFoundry MongoDB: " + cloudFoundryCredentials.url);
-        console.log("Connect as: " + cloudFoundryCredentials.username);
+        logger.info("Connect to CloudFoundry MongoDB: " + cloudFoundryCredentials.url);
+        logger.info("Connect as: " + cloudFoundryCredentials.username);
 
         mongoose.connect(cloudFoundryCredentials.url, {
                 user: cloudFoundryCredentials.username,
@@ -48,7 +48,7 @@ function config() {
     } else {
 
         var mongoDbUrl = 'mongodb://localhost/mebo';
-        console.log("Connect to local MongoDB: " + mongoDbUrl);
+        logger.info("Connect to local MongoDB: " + mongoDbUrl);
         mongoose.connect(mongoDbUrl);
     }
 }
