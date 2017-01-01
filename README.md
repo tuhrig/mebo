@@ -20,7 +20,7 @@ Read more at: https://www.coursera.org/learn/web-development-project.
 
 See the running demo at:
 
-http://mebo.mybluemix.net/public/index.html#/home
+http://mebo.mybluemix.net
 
 ## Development
 
